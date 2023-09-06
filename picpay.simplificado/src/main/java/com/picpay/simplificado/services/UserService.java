@@ -2,11 +2,13 @@ package com.picpay.simplificado.services;
 
 import com.picpay.simplificado.domain.user.User;
 import com.picpay.simplificado.domain.user.UserType;
+import com.picpay.simplificado.dtos.UserDTO;
 import com.picpay.simplificado.repositories.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
+import java.util.List;
 
 @Service
 public class UserService {
@@ -21,6 +23,16 @@ public class UserService {
         if (sender.getBalance().compareTo(amount) < 0) {
             throw new Exception("Saldo insuficiente");
         }
+    }
+
+    public User createUser(UserDTO data) {
+        User newUser = new User(data);
+        this.saveUser(newUser);
+        return newUser;
+    }
+
+    public List<User> getAllUsers() {
+        return this.repository.findAll();
     }
 
     public User findUserById(Long id) throws Exception {
